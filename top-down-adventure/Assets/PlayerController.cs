@@ -28,6 +28,12 @@ public class PlayerController : MonoBehaviour
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
 
+        //In the input manager is the CTRL or MOUSE LEFT BUTTON
+        if(Input.GetButtonDown("Fire1")){
+            myAnimator.SetTrigger("Attack");
+        }
+
+
         //Get the direction of Z and X (Normalize so diagonal won't be faster)
         direction = new Vector3(horizontal, 0f, vertical).normalized;
 
