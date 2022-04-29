@@ -14,6 +14,9 @@ public class PlayerController : MonoBehaviour
     private Vector3 direction;
     private bool isWalking;
 
+    [Header("Cameras")]
+    public GameObject camB;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -54,5 +57,25 @@ public class PlayerController : MonoBehaviour
         //Makes the character move using the CharacterController Componente
         //Multiplies by speed and deltatime(So FPS won't affect speed)
         myCharacterController.Move(direction * movementSpeed * Time.deltaTime);
+    }
+
+    private void OnTriggerEnter(Collider other){
+
+        switch(other.gameObject.tag){
+            case "CamTrigger":
+                camB.SetActive(true);
+                break;
+        }
+
+    }
+
+    private void OnTriggerExit(Collider other){
+
+        switch(other.gameObject.tag){
+            case "CamTrigger":
+                camB.SetActive(false);
+                break;
+        }
+
     }
 }
