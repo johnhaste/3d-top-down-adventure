@@ -6,16 +6,19 @@ public class PlayerController : MonoBehaviour
 {
 
     private CharacterController myCharacterController;
+    private Animator myAnimator;
 
     [Header("Config Player")]
     public float movementSpeed = 3f;
 
     private Vector3 direction;
+    private bool isWalking;
 
     // Start is called before the first frame update
     void Start()
     {
         myCharacterController = GetComponent<CharacterController>();
+        myAnimator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -34,7 +37,13 @@ public class PlayerController : MonoBehaviour
             float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
             //Updates Y rotation
             transform.rotation = Quaternion.Euler(0, targetAngle, 0);
+            //Updates animation
+            isWalking = true;
+        }else{
+            isWalking = false;
         }
+
+        myAnimator.SetBool("isWalking", isWalking);
 
         //Makes the character move using the CharacterController Componente
         //Multiplies by speed and deltatime(So FPS won't affect speed)
