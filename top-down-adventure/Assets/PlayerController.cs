@@ -13,9 +13,8 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 direction;
     private bool isWalking;
-
-    [Header("Cameras")]
-    public GameObject camB;
+    float horizontal;
+    float vertical;
 
     // Start is called before the first frame update
     void Start()
@@ -27,19 +26,28 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Inputs();
+        MoveCharacter(); 
+        UpdateAnimator();       
+    }
+
+    #region MY_METHODS
+
+    void Inputs(){
         //Get input according to the input manager
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
+        horizontal = Input.GetAxis("Horizontal");
+        vertical = Input.GetAxis("Vertical");
 
         //In the input manager is the CTRL or MOUSE LEFT BUTTON
         if(Input.GetButtonDown("Fire1")){
             myAnimator.SetTrigger("Attack");
         }
 
-
         //Get the direction of Z and X (Normalize so diagonal won't be faster)
         direction = new Vector3(horizontal, 0f, vertical).normalized;
+    }
 
+    void MoveCharacter(){
         //If it's moving
         if(direction.magnitude > 0.1){
             //Gets Tangent of the 2 positions x and z (0 to 1f) and Convert Rad to Degrees
@@ -52,30 +60,14 @@ public class PlayerController : MonoBehaviour
             isWalking = false;
         }
 
-        myAnimator.SetBool("isWalking", isWalking);
-
         //Makes the character move using the CharacterController Componente
         //Multiplies by speed and deltatime(So FPS won't affect speed)
         myCharacterController.Move(direction * movementSpeed * Time.deltaTime);
     }
 
-    private void OnTriggerEnter(Collider other){
-
-        switch(other.gameObject.tag){
-            case "CamTrigger":
-                camB.SetActive(true);
-                break;
-        }
-
+    void UpdateAnimator(){
+        myAnimator.SetBool("isWalking", isWalking);
     }
 
-    private void OnTriggerExit(Collider other){
-
-        switch(other.gameObject.tag){
-            case "CamTrigger":
-                camB.SetActive(false);
-                break;
-        }
-
-    }
+    #endregion
 }
