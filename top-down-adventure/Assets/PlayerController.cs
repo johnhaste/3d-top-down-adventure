@@ -20,7 +20,13 @@ public class PlayerController : MonoBehaviour
 
     [Header("Attack Config")]
     public ParticleSystem fxAttack;
-    [SerializeField] private bool isAttacking;
+    public Transform hitBox;
+    public LayerMask hitMask;
+    public Collider[] hitInfo;
+    [Range(0.1f,1f)]
+    public float hitRange = 0.5f;
+    private bool isAttacking;
+    public int damageAmount;
 
     // Start is called before the first frame update
     void Start()
@@ -54,12 +60,18 @@ public class PlayerController : MonoBehaviour
     }
 
     void Attack(){
-        if(!isAttacking){
-            isAttacking = true;
-            myAnimator.SetTrigger("Attack");
-            fxAttack.Emit(1);
-        }
+        isAttacking = true;
+        myAnimator.SetTrigger("Attack");
+        fxAttack.Emit(1);
         
+        //Will only hit objects inside the hitMask
+        hitInfo = Physics.OverlapSphere(hitBox.position, hitRange, hitMask);
+
+        //Loop and hit every object
+        foreach(Collider c in hitInfo){
+            c.gameObject.SendMessage("GetHit", damageAmount, SendMessageOptions.DontRequireReceiver);
+        }
+
     }
 
     void AttackIsDone(){
@@ -89,4 +101,9 @@ public class PlayerController : MonoBehaviour
     }
 
     #endregion
+
+    private void OnDrawGizmosSelected(){
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(hitBox.position, hitRange);
+    }
 }
