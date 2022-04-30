@@ -24074,6 +24074,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fxHit: {fileID: 879356015}
+  HP: 3
+  slimeBody: {fileID: 5150640226965390763}
 --- !u!64 &6179971859574400129
 MeshCollider:
   m_ObjectHideFlags: 0
