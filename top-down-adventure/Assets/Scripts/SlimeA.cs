@@ -11,8 +11,8 @@ public class SlimeA : MonoBehaviour
     //Animation and Particles
     private Animator myAnimator;
     public ParticleSystem fxHit;
-    public const float idleWaitTime = 3f;
-    public const float patrolWaitTime = 5f;
+    private bool isWalking;
+    private bool isAlert;
 
     //Enemy Status
     public int HP = 3;
@@ -43,6 +43,15 @@ public class SlimeA : MonoBehaviour
     void Update()
     {
         StateManager();
+
+        if(agent.desiredVelocity.magnitude >= 0.1f){
+            isWalking = true;
+        }else{
+            isWalking = false;
+        }
+
+        myAnimator.SetBool("isWalking", isWalking);
+        
     }
 
     #region MY_METHODS
@@ -58,6 +67,9 @@ public class SlimeA : MonoBehaviour
             case enemyState.FOLLOW:
                 break;
             case enemyState.FURY:
+                destination = _GameManager.player.position;
+                agent.stoppingDistance = _GameManager.slimeDistanceToAttack;
+                agent.destination = destination;
                 break;
             case enemyState.PATROL:
                 break;
@@ -65,12 +77,13 @@ public class SlimeA : MonoBehaviour
     }
 
     void ChangeState(enemyState newState){
-        
+        print(newState);
         StopAllCoroutines();
         state = newState;
 
         switch(state){
             case enemyState.IDLE:
+                agent.stoppingDistance = 0;
                 destination = transform.position;
                 agent.destination = destination;
                 StartCoroutine("IDLE");
@@ -81,9 +94,11 @@ public class SlimeA : MonoBehaviour
                 break;
             case enemyState.FOLLOW:
                 break;
-            case enemyState.FURY:
+            case enemyState.FURY:                
                 break;
             case enemyState.PATROL:
+                //Randomizes the destination, picks one and makes agent move towards it
+                agent.stoppingDistance = 0;
                 idWaypoint = Random.Range(0, _GameManager.slimeWayPoints.Length);
                 destination = _GameManager.slimeWayPoints[idWaypoint].position;
                 agent.destination = destination;
@@ -94,12 +109,14 @@ public class SlimeA : MonoBehaviour
 
     //Stay still or walk?
     IEnumerator IDLE(){
-        yield return new WaitForSeconds(idleWaitTime);
-        StayStill(50);
+        yield return new WaitForSeconds(_GameManager.slimeIdleWaitTime);
+        StayStill(30);
     }
 
+    //Checks if the slime has reached their destination or player
     IEnumerator PATROL(){
-        yield return new WaitForSeconds(patrolWaitTime);
+        
+        yield return new WaitUntil( ()=>agent.remainingDistance <= 0);
         StayStill(30);
     }
 
@@ -122,6 +139,7 @@ public class SlimeA : MonoBehaviour
         if(isDead){return;}
         
         if(HP > 1){
+            ChangeState(enemyState.FURY);
             myAnimator.SetTrigger("GetHit");
             fxHit.Emit(10);
             HP--;
