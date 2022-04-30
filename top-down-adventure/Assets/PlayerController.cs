@@ -13,8 +13,14 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 direction;
     private bool isWalking;
+
+    //Input
     float horizontal;
     float vertical;
+
+    [Header("Attack Config")]
+    public ParticleSystem fxAttack;
+    [SerializeField] private bool isAttacking;
 
     // Start is called before the first frame update
     void Start()
@@ -39,12 +45,25 @@ public class PlayerController : MonoBehaviour
         vertical = Input.GetAxis("Vertical");
 
         //In the input manager is the CTRL or MOUSE LEFT BUTTON
-        if(Input.GetButtonDown("Fire1")){
-            myAnimator.SetTrigger("Attack");
+        if(Input.GetButtonDown("Fire1") && !isAttacking){
+            Attack();
         }
 
         //Get the direction of Z and X (Normalize so diagonal won't be faster)
         direction = new Vector3(horizontal, 0f, vertical).normalized;
+    }
+
+    void Attack(){
+        if(!isAttacking){
+            isAttacking = true;
+            myAnimator.SetTrigger("Attack");
+            fxAttack.Emit(1);
+        }
+        
+    }
+
+    void AttackIsDone(){
+        isAttacking = false;
     }
 
     void MoveCharacter(){
