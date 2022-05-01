@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour
         UpdateAnimator();       
     }
 
-    void OnTriggerEnter(Collider other){
+    private void OnTriggerEnter(Collider other){
         if(other.gameObject.tag == "TakeDamage"){
             print("Damage");
             GetHit(1);

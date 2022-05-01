@@ -28,6 +28,7 @@ public class SlimeA : MonoBehaviour
     private int idWaypoint;
     private bool isWalking;
     private bool isAlert;
+    private bool isAttacking;
     private bool isPlayerVisible;
 
     // Start is called before the first frame update
@@ -61,16 +62,23 @@ public class SlimeA : MonoBehaviour
 
     void StateManager(){
         switch(state){
+            case enemyState.ALERT:
+                LookAt();
+                break;
             case enemyState.FOLLOW:
+                LookAt();
                 destination = _GameManager.player.position;
                 agent.destination = destination;
                 if(agent.remainingDistance <= agent.stoppingDistance){
-                    //Attack();
+                    Attack();
                 }
                 break;
             case enemyState.FURY:
                 destination = _GameManager.player.position;
                 agent.destination = destination;
+                if(agent.remainingDistance <= agent.stoppingDistance){
+                    Attack();
+                }
                 break;
             case enemyState.PATROL:
                 break;
@@ -107,6 +115,7 @@ public class SlimeA : MonoBehaviour
                 break;
             case enemyState.FOLLOW:
                 agent.stoppingDistance = _GameManager.slimeDistanceToAttack;
+                //StartCoroutine("FOLLOW");
                 break;
              case enemyState.FURY:  
                 destination = transform.position;
@@ -137,6 +146,11 @@ public class SlimeA : MonoBehaviour
         }
     }
 
+    IEnumerator ATTACK(){
+        yield return new WaitForSeconds(_GameManager.slimeAttackWaitTime);
+        isAttacking = false;
+    }
+
     void StayStill(int oddsToStayStill){
         if(Rand() <= oddsToStayStill){
             ChangeState(enemyState.IDLE);
@@ -149,6 +163,24 @@ public class SlimeA : MonoBehaviour
         int rand = Random.Range(0, 100);
         return rand;
     }
+
+    void Attack(){
+        if(!isAttacking && isPlayerVisible){
+            isAttacking = true;
+            myAnimator.SetTrigger("Attack");
+        }
+    }
+
+    void AttackIsDone(){
+        StartCoroutine("ATTACK");
+    }
+
+    void LookAt(){
+        Vector3 lookDirection = (_GameManager.player.position - transform.position).normalized;
+        Quaternion lookRotation = Quaternion.LookRotation(lookDirection);
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, _GameManager.slimeLookAtSpeed * Time.deltaTime);
+    }
+
 
     void GetHit(int amount){
 
