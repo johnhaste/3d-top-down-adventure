@@ -51,6 +51,7 @@ public class SlimeA : MonoBehaviour
         }
 
         myAnimator.SetBool("isWalking", isWalking);
+        myAnimator.SetBool("isAlert", isAlert);
         
     }
 
@@ -58,17 +59,10 @@ public class SlimeA : MonoBehaviour
 
     void StateManager(){
         switch(state){
-            case enemyState.IDLE:
-                break;
-            case enemyState.ALERT:
-                break;
-            case enemyState.EXPLORE:
-                break;
             case enemyState.FOLLOW:
                 break;
             case enemyState.FURY:
                 destination = _GameManager.player.position;
-                agent.stoppingDistance = _GameManager.slimeDistanceToAttack;
                 agent.destination = destination;
                 break;
             case enemyState.PATROL:
@@ -89,6 +83,11 @@ public class SlimeA : MonoBehaviour
                 StartCoroutine("IDLE");
                 break;
             case enemyState.ALERT:
+                agent.stoppingDistance = 0;
+                destination = transform.position;
+                agent.destination = destination;
+                isAlert = true;
+                
                 break;
             case enemyState.EXPLORE:
                 break;
@@ -166,6 +165,12 @@ public class SlimeA : MonoBehaviour
         skinnedMeshRenderer.enabled = true;
         yield return new WaitForSeconds(0.5f);
         Destroy(this.gameObject);
+    }
+
+    private void OnTriggerEnter(Collider other){
+        if(other.gameObject.tag == "Player" && (state == enemyState.IDLE || state == enemyState.PATROL)){
+            ChangeState(enemyState.ALERT);
+        }
     }
 
     #endregion
