@@ -64,12 +64,9 @@ public class SlimeA : MonoBehaviour
             case enemyState.FOLLOW:
                 destination = _GameManager.player.position;
                 agent.destination = destination;
-<<<<<<< HEAD
                 if(agent.remainingDistance <= agent.stoppingDistance){
-                    Attack();
+                    //Attack();
                 }
-=======
->>>>>>> parent of 0d7a502 (Slime Looks at player)
                 break;
             case enemyState.FURY:
                 destination = _GameManager.player.position;
