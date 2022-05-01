@@ -9,8 +9,8 @@ public class PlayerController : MonoBehaviour
     private Animator myAnimator;
 
     [Header("Config Player")]
+    public int HP = 3;
     public float movementSpeed = 3f;
-
     private Vector3 direction;
     private bool isWalking;
 
@@ -41,6 +41,13 @@ public class PlayerController : MonoBehaviour
         Inputs();
         MoveCharacter(); 
         UpdateAnimator();       
+    }
+
+    void OnTriggerEnter(Collider other){
+        if(other.gameObject.tag == "TakeDamage"){
+            print("Damage");
+            GetHit(1);
+        }
     }
 
     #region MY_METHODS
@@ -98,6 +105,15 @@ public class PlayerController : MonoBehaviour
 
     void UpdateAnimator(){
         myAnimator.SetBool("isWalking", isWalking);
+    }
+
+    void GetHit(int amount){
+        HP -= amount;
+        if(HP>0){
+            myAnimator.SetTrigger("GetHit");
+        }else{
+            myAnimator.SetTrigger("Die");  
+        }
     }
 
     #endregion

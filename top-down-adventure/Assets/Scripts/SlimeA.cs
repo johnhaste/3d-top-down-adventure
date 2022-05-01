@@ -86,7 +86,6 @@ public class SlimeA : MonoBehaviour
                 agent.destination = destination;
                 if(agent.remainingDistance <= agent.stoppingDistance){
                     Attack();
-                    print("FOLLOW AND ATTACK");
                 }
                 break;
             case enemyState.FURY:
