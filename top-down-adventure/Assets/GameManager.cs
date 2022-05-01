@@ -17,8 +17,6 @@ public class GameManager : MonoBehaviour
     public float slimeIdleWaitTime = 5f;
     public float slimeDistanceToAttack = 2.3f;
     public float slimeAlertTime = 1f;
-    public float slimeAttackDelay = 1f;
-    public float slimeLookAtSpeed = 2f;
 
     // Start is called before the first frame update
     void Start()

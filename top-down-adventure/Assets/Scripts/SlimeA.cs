@@ -27,7 +27,6 @@ public class SlimeA : MonoBehaviour
     private Vector3 destination;
     private int idWaypoint;
     private bool isWalking;
-    public bool isAttacking;
     private bool isAlert;
     private bool isPlayerVisible;
 
@@ -58,43 +57,23 @@ public class SlimeA : MonoBehaviour
         
     }
 
-    private void OnTriggerEnter(Collider other){
-        if(other.gameObject.tag == "Player"){
-            isPlayerVisible = true;
-            if (state == enemyState.IDLE || state == enemyState.PATROL){
-                ChangeState(enemyState.ALERT);
-            }
-        }
-    }
-
-    private void OnTriggerExit(Collider other){
-        if(other.gameObject.tag == "Player"){
-            isPlayerVisible = false;
-        }
-    }
-
     #region MY_METHODS
 
     void StateManager(){
         switch(state){
-            case enemyState.ALERT:
-                LookAt();
-                break;
             case enemyState.FOLLOW:
-                LookAt();
                 destination = _GameManager.player.position;
                 agent.destination = destination;
+<<<<<<< HEAD
                 if(agent.remainingDistance <= agent.stoppingDistance){
                     Attack();
                 }
+=======
+>>>>>>> parent of 0d7a502 (Slime Looks at player)
                 break;
             case enemyState.FURY:
-                LookAt();
                 destination = _GameManager.player.position;
                 agent.destination = destination;
-                if(agent.remainingDistance <= agent.stoppingDistance){
-                    Attack();
-                }
                 break;
             case enemyState.PATROL:
                 break;
@@ -102,11 +81,12 @@ public class SlimeA : MonoBehaviour
     }
 
     void ChangeState(enemyState newState){
-        
+        print(newState);
         StopAllCoroutines();
+        state = newState;
         isAlert = false;
 
-        switch(newState){
+        switch(state){
             case enemyState.IDLE:
                 agent.stoppingDistance = 0;
                 destination = transform.position;
@@ -129,10 +109,7 @@ public class SlimeA : MonoBehaviour
                 StartCoroutine("PATROL");
                 break;
             case enemyState.FOLLOW:
-                isAttacking = true;
                 agent.stoppingDistance = _GameManager.slimeDistanceToAttack;
-                StartCoroutine("FOLLOW");
-                StartCoroutine("ATTACK");
                 break;
              case enemyState.FURY:  
                 destination = transform.position;
@@ -140,17 +117,12 @@ public class SlimeA : MonoBehaviour
                 agent.destination = destination;              
                 break;
         }
-        state = newState;
     }
 
     //Stay still or walk?
     IEnumerator IDLE(){
         yield return new WaitForSeconds(_GameManager.slimeIdleWaitTime);
         StayStill(30);
-    }
-
-    IEnumerator FOLLOW(){
-        yield return new WaitForSeconds(_GameManager.slimeIdleWaitTime);
     }
 
     //Checks if the slime has reached their destination or player
@@ -166,11 +138,6 @@ public class SlimeA : MonoBehaviour
         }else{
             StayStill(10);
         }
-    }
-
-    IEnumerator ATTACK(){
-        yield return new WaitForSeconds(_GameManager.slimeAttackDelay);
-        isAttacking = false;
     }
 
     void StayStill(int oddsToStayStill){
@@ -221,23 +188,19 @@ public class SlimeA : MonoBehaviour
         Destroy(this.gameObject);
     }
 
-    void Attack(){
-        if(!isAttacking && isPlayerVisible){
-            isAttacking = true;
-            myAnimator.SetTrigger("Attack");
+    private void OnTriggerEnter(Collider other){
+        if(other.gameObject.tag == "Player"){
+            isPlayerVisible = true;
+            if (state == enemyState.IDLE || state == enemyState.PATROL){
+                ChangeState(enemyState.ALERT);
+            }
         }
     }
 
-    void AttackIsDone(){
-        StartCoroutine("ATTACK");
-    }
-
-
-    void LookAt(){
-        
-        Vector3 lookDirection = (_GameManager.player.position - transform.position).normalized;
-        Quaternion lookRotation = Quaternion.LookRotation(lookDirection);
-        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, _GameManager.slimeLookAtSpeed * Time.deltaTime);
+    private void OnTriggerExit(Collider other){
+        if(other.gameObject.tag == "Player"){
+            isPlayerVisible = false;
+        }
     }
 
     #endregion
