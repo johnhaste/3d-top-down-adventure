@@ -4,11 +4,15 @@ using UnityEngine;
 
 public class DynamicCamera : MonoBehaviour
 {
-    [Header("Cameras")]
-    public GameObject camB; 
+    private GameObject camB; 
+
+    void Start(){
+        camB = GameObject.FindGameObjectWithTag("Camera2");
+        camB.SetActive(false);
+    }
     
     private void OnTriggerEnter(Collider other){
-        
+        print("Collided:" + other.gameObject.tag);
         switch(other.gameObject.tag){
             case "CamTrigger":
                 camB.SetActive(true);
