@@ -80,6 +80,7 @@ public class SlimeA : MonoBehaviour
                 }
                 break;
             case enemyState.FURY:
+                LookAt();
                 destination = _GameManager.player.position;
                 agent.destination = destination;
                 if(agent.remainingDistance <= agent.stoppingDistance){
