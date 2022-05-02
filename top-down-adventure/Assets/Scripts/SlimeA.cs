@@ -61,6 +61,12 @@ public class SlimeA : MonoBehaviour
     #region MY_METHODS
 
     void StateManager(){
+
+        //If player is dead get back to idle
+        if(_GameManager.gameState == GameState.DEAD && (state == enemyState.FOLLOW || state == enemyState.FURY || state == enemyState.ALERT)){
+            ChangeState(enemyState.IDLE);
+        }
+
         switch(state){
             case enemyState.ALERT:
                 LookAt();
@@ -86,7 +92,7 @@ public class SlimeA : MonoBehaviour
     }
 
     void ChangeState(enemyState newState){
-        
+
         StopAllCoroutines();
         state = newState;
         isAlert = false;
@@ -121,6 +127,10 @@ public class SlimeA : MonoBehaviour
                 destination = transform.position;
                 agent.stoppingDistance = _GameManager.slimeDistanceToAttack;
                 agent.destination = destination;              
+                break;
+            case enemyState.DEAD:
+                destination = transform.position;
+                agent.destination = destination;  
                 break;
         }
     }
@@ -193,6 +203,7 @@ public class SlimeA : MonoBehaviour
             fxHit.Emit(10);
             HP--;
         }else{
+            ChangeState(enemyState.DEAD);
             myAnimator.SetTrigger("Die");
             StartCoroutine("Died");
         }
@@ -218,12 +229,20 @@ public class SlimeA : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider other){
+        
+        if(_GameManager.gameState != GameState.GAMEPLAY){return;}
+
         if(other.gameObject.tag == "Player"){
             isPlayerVisible = true;
+            
             if (state == enemyState.IDLE || state == enemyState.PATROL){
                 ChangeState(enemyState.ALERT);
+            }else if(state == enemyState.FOLLOW){
+                StopCoroutine("FOLLOW");
+                ChangeState(enemyState.FOLLOW);
             }
         }
+    
     }
 
     private void OnTriggerExit(Collider other){

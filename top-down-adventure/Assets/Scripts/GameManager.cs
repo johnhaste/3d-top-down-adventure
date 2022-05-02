@@ -4,11 +4,17 @@ using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 
 public enum enemyState{
-    IDLE, ALERT, EXPLORE, PATROL, FOLLOW, FURY
+    IDLE, ALERT, EXPLORE, PATROL, FOLLOW, FURY, DEAD
+}
+
+public enum GameState{
+    GAMEPLAY, DEAD
 }
 
 public class GameManager : MonoBehaviour
 {
+
+    public GameState gameState;
 
     [Header("Player")]
     public Transform player;
@@ -89,6 +95,10 @@ public class GameManager : MonoBehaviour
                 postB.weight = 0;
                 break;
         }
+    }
+
+    public void ChangeGameState(GameState newState){
+        gameState = newState;
     }
 
 

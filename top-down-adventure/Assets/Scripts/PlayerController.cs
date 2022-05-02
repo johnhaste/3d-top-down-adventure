@@ -5,6 +5,9 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
 
+    //Config
+    private GameManager _GameManager;
+
     private CharacterController myCharacterController;
     private Animator myAnimator;
 
@@ -31,6 +34,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _GameManager = FindObjectOfType(typeof(GameManager)) as GameManager;
         myCharacterController = GetComponent<CharacterController>();
         myAnimator = GetComponent<Animator>();
     }
@@ -38,6 +42,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(_GameManager.gameState != GameState.GAMEPLAY){return;}
         Inputs();
         MoveCharacter(); 
         UpdateAnimator();       
@@ -112,6 +117,7 @@ public class PlayerController : MonoBehaviour
         if(HP>0){
             myAnimator.SetTrigger("GetHit");
         }else{
+            _GameManager.ChangeGameState(GameState.DEAD);
             myAnimator.SetTrigger("Die");  
         }
     }
