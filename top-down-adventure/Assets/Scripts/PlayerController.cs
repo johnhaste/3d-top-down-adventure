@@ -50,7 +50,6 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other){
         if(other.gameObject.tag == "TakeDamage"){
-            print("Damage");
             GetHit(1);
         }
     }

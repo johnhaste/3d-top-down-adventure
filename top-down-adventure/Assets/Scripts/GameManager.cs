@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
+using UnityEngine.UI;
 
 public enum enemyState{
     IDLE, ALERT, EXPLORE, PATROL, FOLLOW, FURY, DEAD
@@ -16,8 +17,12 @@ public class GameManager : MonoBehaviour
 
     public GameState gameState;
 
-    [Header("Player")]
+    [Header("Info Player")]
     public Transform player;
+    private int gems;
+
+    [Header("UI")]
+    public Text txtGem;
 
     [Header("Slime IA")]
     public Transform[] slimeWayPoints;
@@ -37,6 +42,12 @@ public class GameManager : MonoBehaviour
 
     private void Start(){
         rainModule = rainParticle.emission;
+        txtGem.text = gems.ToString();
+    }
+
+    public void earnGems(int amount){
+        gems += amount;
+        txtGem.text = gems.ToString();
     }
 
     public void OnOffRain(bool isRaining){

@@ -2,12 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DynamicCamera : MonoBehaviour
+public class PlayerTriggers : MonoBehaviour
 {
+     //Config
+    private GameManager _GameManager;
     private GameObject camB; 
 
     void Start(){
         camB = GameObject.FindGameObjectWithTag("Camera2");
+        _GameManager = FindObjectOfType(typeof(GameManager)) as GameManager;
         camB.SetActive(false);
     }
     
@@ -17,6 +20,11 @@ public class DynamicCamera : MonoBehaviour
             case "CamTrigger":
                 camB.SetActive(true);
                 break;
+            case "Collectable":
+                _GameManager.earnGems(1);
+                Destroy(other.gameObject);
+                break;
+
         }
 
     }
