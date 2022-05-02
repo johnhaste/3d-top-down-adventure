@@ -92,7 +92,7 @@ public class SlimeA : MonoBehaviour
     }
 
     void ChangeState(enemyState newState){
-
+        print(newState);
         StopAllCoroutines();
         state = newState;
         isAlert = false;
