@@ -12,7 +12,7 @@ public class DynamicCamera : MonoBehaviour
     }
     
     private void OnTriggerEnter(Collider other){
-        print("Collided:" + other.gameObject.tag);
+
         switch(other.gameObject.tag){
             case "CamTrigger":
                 camB.SetActive(true);
