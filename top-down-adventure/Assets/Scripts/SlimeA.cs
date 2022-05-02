@@ -226,6 +226,12 @@ public class SlimeA : MonoBehaviour
         skinnedMeshRenderer.enabled = true;
         yield return new WaitForSeconds(0.5f);
         Destroy(this.gameObject);
+
+        //Checks if will or won't drop a gem
+        if(_GameManager.CalculateOdds(_GameManager.dropOdds)){
+            Instantiate(_GameManager.gemPreFab, new Vector3(transform.position.x, transform.position.y + 0.4f, transform.position.z) , _GameManager.gemPreFab.transform.rotation);
+        }
+        
     }
 
     private void OnTriggerEnter(Collider other){

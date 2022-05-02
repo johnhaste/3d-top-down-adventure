@@ -40,6 +40,10 @@ public class GameManager : MonoBehaviour
     public int rainIncrement;
     public float rainIncrementDelay;
 
+    [Header("Drop Item")]
+    public GameObject gemPreFab;
+    public int dropOdds = 50;
+
     private void Start(){
         rainModule = rainParticle.emission;
         txtGem.text = gems.ToString();
@@ -48,6 +52,12 @@ public class GameManager : MonoBehaviour
     public void earnGems(int amount){
         gems += amount;
         txtGem.text = gems.ToString();
+    }
+
+    public bool CalculateOdds(int p){
+        int temp = Random.Range(0,100);
+        bool result = temp <= p ? true: false;
+        return result;
     }
 
     public void OnOffRain(bool isRaining){
