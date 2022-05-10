@@ -23,6 +23,7 @@ public class SlimeA : MonoBehaviour
     private SkinnedMeshRenderer skinnedMeshRenderer;
 
     //AI
+    public Transform[] slimeWayPoints;
     private NavMeshAgent agent;
     private Vector3 destination;
     private int idWaypoint;
@@ -115,8 +116,8 @@ public class SlimeA : MonoBehaviour
             case enemyState.PATROL:
                 //Randomizes the destination, picks one and makes agent move towards it
                 agent.stoppingDistance = 0;
-                idWaypoint = Random.Range(0, _GameManager.slimeWayPoints.Length);
-                destination = _GameManager.slimeWayPoints[idWaypoint].position;
+                idWaypoint = Random.Range(0,slimeWayPoints.Length);
+                destination = slimeWayPoints[idWaypoint].position;
                 agent.destination = destination;
                 StartCoroutine("PATROL");
                 break;
@@ -201,6 +202,7 @@ public class SlimeA : MonoBehaviour
         if(HP > 1){
             ChangeState(enemyState.FURY);
             myAnimator.SetTrigger("GetHit");
+            StartCoroutine("Flash");
             fxHit.Emit(10);
             HP--;
         }else{
@@ -211,8 +213,7 @@ public class SlimeA : MonoBehaviour
         
     }
 
-    IEnumerator Died(){
-        isDead = true;
+    IEnumerator Flash(){
         yield return new WaitForSeconds(0.2f);
         skinnedMeshRenderer.enabled = false;
         yield return new WaitForSeconds(0.2f);
@@ -226,6 +227,12 @@ public class SlimeA : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
         skinnedMeshRenderer.enabled = true;
         yield return new WaitForSeconds(0.5f);
+    }
+
+    IEnumerator Died(){
+        isDead = true;
+        StartCoroutine("Flash");
+        yield return new WaitForSeconds(2f);
         Destroy(this.gameObject);
 
         //Checks if will or won't drop a gem

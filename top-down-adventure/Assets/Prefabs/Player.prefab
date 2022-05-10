@@ -1318,7 +1318,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 192
   hitInfo: []
-  hitRange: 0.477
   damageAmount: 0
 --- !u!143 &2361780388698560658
 CharacterController:
@@ -2573,7 +2572,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4353201353114362976}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.054, y: 0.673, z: 0.749}
+  m_LocalPosition: {x: 0.054, y: 0.35, z: 0.749}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2361780388698457227}

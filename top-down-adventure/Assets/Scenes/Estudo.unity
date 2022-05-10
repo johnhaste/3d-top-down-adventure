@@ -16551,6 +16551,34 @@ PrefabInstance:
       propertyPath: m_Name
       value: SlimeNav
       objectReference: {fileID: 0}
+    - target: {fileID: 2494522122128481643, guid: 9ce72062969b3fe40a412b087a815060, type: 3}
+      propertyPath: slimeWayPoints.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2494522122128481643, guid: 9ce72062969b3fe40a412b087a815060, type: 3}
+      propertyPath: slimeWayPoints.Array.data[0]
+      value: 
+      objectReference: {fileID: 1904213946}
+    - target: {fileID: 2494522122128481643, guid: 9ce72062969b3fe40a412b087a815060, type: 3}
+      propertyPath: slimeWayPoints.Array.data[1]
+      value: 
+      objectReference: {fileID: 1844861419}
+    - target: {fileID: 2494522122128481643, guid: 9ce72062969b3fe40a412b087a815060, type: 3}
+      propertyPath: slimeWayPoints.Array.data[2]
+      value: 
+      objectReference: {fileID: 584012763}
+    - target: {fileID: 2494522122128481643, guid: 9ce72062969b3fe40a412b087a815060, type: 3}
+      propertyPath: slimeWayPoints.Array.data[3]
+      value: 
+      objectReference: {fileID: 1033872178}
+    - target: {fileID: 2494522122128481643, guid: 9ce72062969b3fe40a412b087a815060, type: 3}
+      propertyPath: slimeWayPoints.Array.data[4]
+      value: 
+      objectReference: {fileID: 780743059}
+    - target: {fileID: 2494522122128481643, guid: 9ce72062969b3fe40a412b087a815060, type: 3}
+      propertyPath: slimeWayPoints.Array.data[5]
+      value: 
+      objectReference: {fileID: 1713756817}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9ce72062969b3fe40a412b087a815060, type: 3}
 --- !u!23 &7549564184114101205
