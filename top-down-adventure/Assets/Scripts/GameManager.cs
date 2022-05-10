@@ -61,9 +61,9 @@ public class GameManager : MonoBehaviour
         txtGem.text = gems.ToString();
     }
 
-    public bool CalculateOdds(int p){
+    public bool CalculateOdds(int odds){
         int temp = Random.Range(0,100);
-        bool result = temp <= p ? true: false;
+        bool result = temp <= odds ? true: false;
         return result;
     }
 

@@ -10,6 +10,7 @@ public class PlayerTriggers : MonoBehaviour
 
     void Start(){
         _GameManager = FindObjectOfType(typeof(GameManager)) as GameManager;
+        float fullSpeed = GetComponent<PlayerController>().currentMovementSpeed;
         camB = GameObject.FindGameObjectWithTag("Camera2");
         if(camB != null){
             camB.SetActive(false);
@@ -26,6 +27,11 @@ public class PlayerTriggers : MonoBehaviour
                 _GameManager.EarnGems(1);
                 Destroy(other.gameObject);
                 break;
+            case "Grass":
+                if(other.gameObject.transform.localScale.x > 1){
+                    GetComponent<PlayerController>().currentMovementSpeed = 1f;
+                }
+                break;
 
         }
 
@@ -36,6 +42,9 @@ public class PlayerTriggers : MonoBehaviour
         switch(other.gameObject.tag){
             case "CamTrigger":
                 camB.SetActive(false);
+                break;
+            case "Grass":
+                GetComponent<PlayerController>().currentMovementSpeed = GetComponent<PlayerController>().maxMovementSpeed;
                 break;
         }
 

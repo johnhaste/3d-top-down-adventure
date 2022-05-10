@@ -9,6 +9,7 @@ TagManager:
   - Camera1
   - Camera2
   - Collectable
+  - Grass
   layers:
   - Default
   - TransparentFX

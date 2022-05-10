@@ -13,7 +13,8 @@ public class PlayerController : MonoBehaviour
 
     [Header("Config Player")]
     public int HP = 3;
-    public float movementSpeed = 3f;
+    public float maxMovementSpeed = 3f;
+    public float currentMovementSpeed = 3f;
     private Vector3 direction;
     private bool isWalking;
 
@@ -105,7 +106,7 @@ public class PlayerController : MonoBehaviour
 
         //Makes the character move using the CharacterController Componente
         //Multiplies by speed and deltatime(So FPS won't affect speed)
-        myCharacterController.Move(direction * movementSpeed * Time.deltaTime);
+        myCharacterController.Move(direction * currentMovementSpeed * Time.deltaTime);
     }
 
     void UpdateAnimator(){
