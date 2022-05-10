@@ -74,7 +74,7 @@ public class SlimeA : MonoBehaviour
                 break;
             case enemyState.FOLLOW:
                 LookAt();
-                destination = _GameManager.player.position;
+                destination = _GameManager.playerTransform.position;
                 agent.destination = destination;
                 if(agent.remainingDistance <= agent.stoppingDistance){
                     Attack();
@@ -82,7 +82,7 @@ public class SlimeA : MonoBehaviour
                 break;
             case enemyState.FURY:
                 LookAt();
-                destination = _GameManager.player.position;
+                destination = _GameManager.playerTransform.position;
                 agent.destination = destination;
                 if(agent.remainingDistance <= agent.stoppingDistance){
                     Attack();
@@ -140,13 +140,13 @@ public class SlimeA : MonoBehaviour
     //Stay still or walk?
     IEnumerator IDLE(){
         yield return new WaitForSeconds(_GameManager.slimeIdleWaitTime);
-        StayStill(30);
+        StayStill(15);
     }
 
     //Checks if the slime has reached their destination or player
     IEnumerator PATROL(){
         yield return new WaitUntil( ()=>agent.remainingDistance <= 0);
-        StayStill(30);
+        StayStill(20);
     }
 
     IEnumerator ALERT(){
@@ -188,7 +188,7 @@ public class SlimeA : MonoBehaviour
     }
 
     void LookAt(){
-        Vector3 lookDirection = (_GameManager.player.position - transform.position).normalized;
+        Vector3 lookDirection = (_GameManager.playerTransform.position - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(lookDirection);
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, _GameManager.slimeLookAtSpeed * Time.deltaTime);
     }

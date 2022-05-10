@@ -18,7 +18,8 @@ public class GameManager : MonoBehaviour
     public GameState gameState;
 
     [Header("Info Player")]
-    public Transform player;
+    public Transform playerTransform;
+    public GameObject player;
     private int gems;
 
     [Header("UI")]
@@ -46,6 +47,8 @@ public class GameManager : MonoBehaviour
 
     private void Start(){
         rainModule = rainParticle.emission;
+        player = GameObject.FindGameObjectWithTag("Player");
+        playerTransform = player.transform;
         txtGem.text = gems.ToString();
     }
 
