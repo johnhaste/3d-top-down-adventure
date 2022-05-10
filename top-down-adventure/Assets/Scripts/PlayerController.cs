@@ -114,6 +114,7 @@ public class PlayerController : MonoBehaviour
 
     void GetHit(int amount){
         HP -= amount;
+        _GameManager.UpdatePlayerHeartsUI(HP);
         if(HP>0){
             myAnimator.SetTrigger("GetHit");
         }else{

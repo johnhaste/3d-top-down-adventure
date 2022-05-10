@@ -23,7 +23,7 @@ public class PlayerTriggers : MonoBehaviour
                 camB.SetActive(true);
                 break;
             case "Collectable":
-                _GameManager.earnGems(1);
+                _GameManager.EarnGems(1);
                 Destroy(other.gameObject);
                 break;
 

@@ -21,12 +21,12 @@ public class GameManager : MonoBehaviour
     public Transform playerTransform;
     public GameObject player;
     private int gems;
+    public Image[] playerHearts;
 
     [Header("UI")]
     public Text txtGem;
 
     [Header("Slime IA")]
-    public Transform[] slimeWayPoints;
     public float slimeIdleWaitTime = 5f;
     public float slimeAttackWaitTime = 1f;
     public float slimeDistanceToAttack = 2.3f;
@@ -52,7 +52,11 @@ public class GameManager : MonoBehaviour
         txtGem.text = gems.ToString();
     }
 
-    public void earnGems(int amount){
+    public void UpdatePlayerHeartsUI(int hearts){
+        playerHearts[hearts].enabled = false;
+    }
+
+    public void EarnGems(int amount){
         gems += amount;
         txtGem.text = gems.ToString();
     }
