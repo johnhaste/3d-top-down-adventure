@@ -26,8 +26,9 @@ public class PlayerController : MonoBehaviour
     public Transform hitBox;
     public LayerMask hitMask;
     public Collider[] hitInfo;
-    [Range(0.1f,1f)]
-    public float hitRange = 0.5f;
+    
+    //[Range(0.1f,1f)]
+    private float hitRange = 0.9f;
     private bool isAttacking;
     public int damageAmount;
 

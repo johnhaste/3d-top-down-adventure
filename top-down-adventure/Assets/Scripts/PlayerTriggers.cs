@@ -9,9 +9,11 @@ public class PlayerTriggers : MonoBehaviour
     private GameObject camB; 
 
     void Start(){
-        camB = GameObject.FindGameObjectWithTag("Camera2");
         _GameManager = FindObjectOfType(typeof(GameManager)) as GameManager;
-        camB.SetActive(false);
+        camB = GameObject.FindGameObjectWithTag("Camera2");
+        if(camB != null){
+            camB.SetActive(false);
+        }
     }
     
     private void OnTriggerEnter(Collider other){
