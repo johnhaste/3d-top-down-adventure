@@ -15,7 +15,7 @@ public class SlimeA : MonoBehaviour
     
 
     //Enemy Status
-    public int HP = 3;
+    public int HP;
     public GameObject[] slimeHearts;
     private bool isDead;
     public enemyState state;
@@ -88,6 +88,7 @@ public class SlimeA : MonoBehaviour
                 destination = _GameManager.playerTransform.position;
                 agent.destination = destination;
                 if(agent.remainingDistance <= agent.stoppingDistance){
+                    isAttacking = false;
                     Attack();
                 }
                 break;
@@ -97,7 +98,7 @@ public class SlimeA : MonoBehaviour
     }
 
     void ChangeState(enemyState newState){
-        //print(newState);
+        print(newState);
         StopAllCoroutines();
         state = newState;
         isAlert = false;
@@ -163,6 +164,7 @@ public class SlimeA : MonoBehaviour
 
     IEnumerator ATTACK(){
         yield return new WaitForSeconds(_GameManager.slimeAttackWaitTime);
+        _AudioPlayer.SlimeAttacks();
         isAttacking = false;
     }
 
@@ -183,7 +185,6 @@ public class SlimeA : MonoBehaviour
         if(!isAttacking && isPlayerVisible){
             isAttacking = true;
             myAnimator.SetTrigger("Attack");
-            _AudioPlayer.SlimeAttacks();
         }
     }
 
@@ -203,17 +204,16 @@ public class SlimeA : MonoBehaviour
         //If it's dead, does'nt get hit
         if(isDead){return;}
 
-        
-         _AudioPlayer.SlimeGetsHit();
-        
         if(HP > 1){
             HP--;
             ChangeState(enemyState.FURY);
             myAnimator.SetTrigger("GetHit");
             StartCoroutine("Flash");
             fxHit.Emit(10);
+            _AudioPlayer.SlimeGetsHit();
             Destroy(slimeHearts[HP].gameObject);
         }else{
+            _AudioPlayer.SlimeGetsHit();
             Destroy(slimeHearts[0].gameObject);
             ChangeState(enemyState.DEAD);
             myAnimator.SetTrigger("Die");

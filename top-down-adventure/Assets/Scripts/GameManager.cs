@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public enum enemyState{
     IDLE, ALERT, EXPLORE, PATROL, FOLLOW, FURY, DEAD
@@ -134,7 +135,18 @@ public class GameManager : MonoBehaviour
 
     public void ChangeGameState(GameState newState){
         gameState = newState;
+
+        switch(gameState){
+            case GameState.DEAD:
+                StartCoroutine("RestartGame");
+                break;
+        }
+
     }
 
+    IEnumerator RestartGame(){
+        yield return new WaitForSeconds(3f);  
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
 
 }
