@@ -16,6 +16,7 @@ public class SlimeA : MonoBehaviour
 
     //Enemy Status
     public int HP = 3;
+    public GameObject[] slimeHearts;
     private bool isDead;
     public enemyState state;
 
@@ -202,19 +203,23 @@ public class SlimeA : MonoBehaviour
         //If it's dead, does'nt get hit
         if(isDead){return;}
 
+        
          _AudioPlayer.SlimeGetsHit();
         
         if(HP > 1){
+            HP--;
             ChangeState(enemyState.FURY);
             myAnimator.SetTrigger("GetHit");
             StartCoroutine("Flash");
             fxHit.Emit(10);
-            HP--;
+            Destroy(slimeHearts[HP].gameObject);
         }else{
+            Destroy(slimeHearts[0].gameObject);
             ChangeState(enemyState.DEAD);
             myAnimator.SetTrigger("Die");
             StartCoroutine("Died");
         }
+
         
     }
 
