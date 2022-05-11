@@ -16,7 +16,6 @@ public class RainManager : MonoBehaviour
 
     private void OnTriggerEnter(Collider other){
         if(other.gameObject.tag == "Player"){
-            print("Change");
             _GameManager.OnOffRain(isRaining);
         }
     }

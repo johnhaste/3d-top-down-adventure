@@ -7,6 +7,7 @@ public class SlimeA : MonoBehaviour
 {
     //Config
     private GameManager _GameManager;
+    private AudioPlayer _AudioPlayer;
 
     //Animation and Particles
     private Animator myAnimator;
@@ -38,6 +39,7 @@ public class SlimeA : MonoBehaviour
         myAnimator = GetComponent<Animator>();
         skinnedMeshRenderer = slimeBody.GetComponent<SkinnedMeshRenderer>();
         _GameManager = FindObjectOfType(typeof(GameManager)) as GameManager;
+        _AudioPlayer = FindObjectOfType(typeof(AudioPlayer)) as AudioPlayer;
         agent = GetComponent<NavMeshAgent>();
 
         ChangeState(state);
@@ -180,6 +182,7 @@ public class SlimeA : MonoBehaviour
         if(!isAttacking && isPlayerVisible){
             isAttacking = true;
             myAnimator.SetTrigger("Attack");
+            _AudioPlayer.SlimeAttacks();
         }
     }
 
@@ -198,6 +201,8 @@ public class SlimeA : MonoBehaviour
 
         //If it's dead, does'nt get hit
         if(isDead){return;}
+
+         _AudioPlayer.SlimeGetsHit();
         
         if(HP > 1){
             ChangeState(enemyState.FURY);

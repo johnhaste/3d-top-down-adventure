@@ -6,18 +6,21 @@ public class Grass : MonoBehaviour
 {
     //Config
     private GameManager _GameManager;
+    private AudioPlayer _AudioPlayer;
     public ParticleSystem fxHit;
     private bool isCut;
     int grassDropOdds = 25;
 
     void Start(){
         _GameManager = FindObjectOfType(typeof(GameManager)) as GameManager;
+        _AudioPlayer = FindObjectOfType(typeof(AudioPlayer)) as AudioPlayer;
     }
 
     void GetHit(int amount){
         
         if(!isCut){
             isCut = true;
+            _AudioPlayer.GrassGetsHit();
             transform.localScale = new Vector3(1f,1f,1f);
             fxHit.Emit(10);
             //Checks if will or won't drop a gem

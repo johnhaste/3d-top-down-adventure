@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
 
     //Config
     private GameManager _GameManager;
+    private AudioPlayer _AudioPlayer;
 
     private CharacterController myCharacterController;
     private Animator myAnimator;
@@ -37,6 +38,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         _GameManager = FindObjectOfType(typeof(GameManager)) as GameManager;
+        _AudioPlayer = FindObjectOfType(typeof(AudioPlayer)) as AudioPlayer;
         myCharacterController = GetComponent<CharacterController>();
         myAnimator = GetComponent<Animator>();
     }
@@ -76,6 +78,7 @@ public class PlayerController : MonoBehaviour
         isAttacking = true;
         myAnimator.SetTrigger("Attack");
         fxAttack.Emit(1);
+        _AudioPlayer.PlayerAttacks();
         
         //Will only hit objects inside the hitMask
         hitInfo = Physics.OverlapSphere(hitBox.position, hitRange, hitMask);
@@ -116,6 +119,7 @@ public class PlayerController : MonoBehaviour
     void GetHit(int amount){
         HP -= amount;
         _GameManager.UpdatePlayerHeartsUI(HP);
+        _AudioPlayer.PlayerGetsHit();
         if(HP>0){
             myAnimator.SetTrigger("GetHit");
         }else{

@@ -6,10 +6,12 @@ public class PlayerTriggers : MonoBehaviour
 {
      //Config
     private GameManager _GameManager;
+    private AudioPlayer _AudioPlayer;
     private GameObject camB; 
 
     void Start(){
         _GameManager = FindObjectOfType(typeof(GameManager)) as GameManager;
+        _AudioPlayer = FindObjectOfType(typeof(AudioPlayer)) as AudioPlayer;
         float fullSpeed = GetComponent<PlayerController>().currentMovementSpeed;
         camB = GameObject.FindGameObjectWithTag("Camera2");
         if(camB != null){
@@ -25,6 +27,7 @@ public class PlayerTriggers : MonoBehaviour
                 break;
             case "Collectable":
                 _GameManager.EarnGems(1);
+                _AudioPlayer.RupeePickup();
                 Destroy(other.gameObject);
                 break;
             case "Grass":

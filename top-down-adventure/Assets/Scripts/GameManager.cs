@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
 {
 
     public GameState gameState;
+    private AudioPlayer _AudioPlayer;
 
     [Header("Info Player")]
     public Transform playerTransform;
@@ -46,6 +47,7 @@ public class GameManager : MonoBehaviour
     public int dropOdds = 50;
 
     private void Start(){
+        _AudioPlayer = FindObjectOfType(typeof(AudioPlayer)) as AudioPlayer;
         rainModule = rainParticle.emission;
         player = GameObject.FindGameObjectWithTag("Player");
         playerTransform = player.transform;
@@ -72,12 +74,17 @@ public class GameManager : MonoBehaviour
         StopCoroutine("PostBManager");
         StartCoroutine("RainManager", isRaining);
         StartCoroutine("PostBManager", isRaining);
+        if(isRaining){
+            _AudioPlayer.PlayBattleSong();
+        }else{
+            _AudioPlayer.PlayThemeSong();
+        }
+
     }
 
     IEnumerator RainManager(bool isRaining){
         switch(isRaining){
             case true:
-
                 //Increase rain over time
                 for(float r = rainModule.rateOverTime.constant; r < rainRateOverTime; r+= rainIncrement){
                     rainModule.rateOverTime = r;
