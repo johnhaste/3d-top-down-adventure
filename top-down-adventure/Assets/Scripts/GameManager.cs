@@ -138,7 +138,8 @@ public class GameManager : MonoBehaviour
 
         switch(gameState){
             case GameState.DEAD:
-                StartCoroutine("RestartGame");
+                //StartCoroutine("RestartGame");
+                //For some reason the lightning changes completely
                 break;
         }
 
