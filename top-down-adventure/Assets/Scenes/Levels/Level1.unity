@@ -8023,7 +8023,7 @@ MonoBehaviour:
   grassGetsHitSFX: {fileID: 8300000, guid: 2ff8a8bb14151944c86e0489691279f0, type: 3}
   rupeePickupSFX: {fileID: 8300000, guid: 2cc508c7df5305a438d3a7d7d529bcfa, type: 3}
   backgroundMusic1: {fileID: 8300000, guid: 4bfef52729932c843ba9a92d56e44074, type: 3}
-  backgroundMusic2: {fileID: 8300000, guid: 0c9bad4a888c82242ab68972350b15be, type: 3}
+  backgroundMusic2: {fileID: 8300000, guid: f425892e4c9dfb34bb908b772526ec41, type: 3}
 --- !u!1001 &1177162625
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14232,7 +14232,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3587257709992609482, guid: 0218cef5a3f73b3429ec5b7bee3a306a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.6829065
+      value: 0.68290657
       objectReference: {fileID: 0}
     - target: {fileID: 3587257709992609482, guid: 0218cef5a3f73b3429ec5b7bee3a306a, type: 3}
       propertyPath: m_LocalPosition.y
@@ -14240,7 +14240,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3587257709992609482, guid: 0218cef5a3f73b3429ec5b7bee3a306a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 14.301304
+      value: 11.555303
       objectReference: {fileID: 0}
     - target: {fileID: 3587257709992609483, guid: 0218cef5a3f73b3429ec5b7bee3a306a, type: 3}
       propertyPath: m_Follow

@@ -52,11 +52,11 @@ public class AudioPlayer : MonoBehaviour
     public void PlayBGMusic(AudioClip audioClip){
         StopAllCoroutines();
         StopAllAudio();
-        StartCoroutine("WaitForMusicToEnd", audioClip);
+        StartCoroutine("PlayMusicInLoop", audioClip);
     }
 
-    IEnumerator WaitForMusicToEnd(AudioClip music){
-        AudioSource.PlayClipAtPoint(music, Camera.main.transform.position);
+    IEnumerator PlayMusicInLoop(AudioClip music){
+        AudioSource.PlayClipAtPoint(music, Camera.main.transform.position, 0.3f);
         yield return new WaitForSeconds(music.length);
         StartCoroutine("WaitForMusicToEnd");
     }
